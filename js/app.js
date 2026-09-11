@@ -1,6 +1,4 @@
 const DATA_API = "https://graphql.anilist.co";
-const I18N = window.AnimeHojeI18n;
-const t = (key, vars) => I18N.t(key, vars);
 
 const todayGrid = document.getElementById("todayGrid");
 const trendingGrid = document.getElementById("trendingGrid");
@@ -18,21 +16,38 @@ function escapeHtml(value=""){
 }
 
 function displayTitle(media){
-  if(I18N.language === 'en') return media?.title?.english || media?.title?.romaji || media?.title?.userPreferred || media?.title?.native || "Anime";
-  return media?.title?.english || media?.title?.userPreferred || media?.title?.romaji || media?.title?.native || "Anime";
+  return media?.title?.romaji ||
+         media?.title?.userPreferred ||
+         media?.title?.native ||
+         media?.title?.english ||
+         "Anime";
+}
+
+function mediaFormat(value){
+  const map = {
+    TV:"TV Series", TV_SHORT:"TV Short", MOVIE:"Movie",
+    SPECIAL:"Special", OVA:"OVA", ONA:"ONA", MUSIC:"Music Video"
+  };
+  return map[value] || value || "Anime";
 }
 
 function formatTime(unix){
-  return I18N.formatDate(new Date(unix * 1000), {hour:"2-digit", minute:"2-digit"});
+  return new Intl.DateTimeFormat("en-US", {
+    hour:"2-digit", minute:"2-digit"
+  }).format(new Date(unix * 1000));
 }
 
 function formatDateLong(date){
-  return I18N.formatDate(date, {weekday:"long", day:"2-digit", month:"long", year:"numeric"});
+  return new Intl.DateTimeFormat("en-US", {
+    weekday:"long", day:"2-digit", month:"long", year:"numeric"
+  }).format(date);
 }
 
 function tickClock(){
   if(!liveClock) return;
-  liveClock.textContent = I18N.formatDate(new Date(), {hour:"2-digit", minute:"2-digit", second:"2-digit"});
+  liveClock.textContent = new Intl.DateTimeFormat("en-US", {
+    hour:"2-digit", minute:"2-digit", second:"2-digit", hour12:false
+  }).format(new Date());
 }
 
 function localDayRange(){
@@ -59,7 +74,7 @@ async function loadToday(){
   const dateLabel = formatDateLong(now);
   todayLabel.textContent = dateLabel;
   if(todayLabelHero) todayLabelHero.textContent = dateLabel;
-  todayGrid.innerHTML = `<div class="loading">${escapeHtml(t('loading.today'))}</div>`;
+  todayGrid.innerHTML = '<div class="loading">Loading today\\'s episodes...</div>';
 
   const query = `
     query ($page:Int,$start:Int,$end:Int) {
@@ -76,7 +91,7 @@ async function loadToday(){
     const data = await gql(query,{page:1,start,end});
     const items = data.Page.airingSchedules || [];
     if(!items.length){
-      todayGrid.innerHTML = `<div class="loading">${escapeHtml(t('empty.today'))}</div>`;
+      todayGrid.innerHTML = '<div class="loading">No episodes were found for today in this query.</div>';
       return;
     }
     todayGrid.innerHTML = items.map(item => {
@@ -86,24 +101,24 @@ async function loadToday(){
       return `
         <a class="row" href="${url}">
           <span class="row-time">${formatTime(item.airingAt)}</span>
-          ${img ? `<img class="row-cover" loading="lazy" src="${img}" alt="${title}">` : `<span class="row-cover" aria-hidden="true"></span>`}
+          ${img ? `<img class="row-cover" loading="lazy" src="${img}" alt="">` : `<span class="row-cover" aria-hidden="true"></span>`}
           <span class="row-main">
-            <span class="row-title">${title}</span>
+            <span class="row-title notranslate" translate="no">${title}</span>
             <span class="row-meta">
-              <span class="chip">${escapeHtml(t('episode.short',{number:item.episode}))}</span>
-              <span>${escapeHtml(I18N.mediaFormat(item.media.format))}</span>
+              <span class="chip">EP ${escapeHtml(item.episode)}</span>
+              <span>${escapeHtml(mediaFormat(item.media.format))}</span>
             </span>
           </span>
         </a>`;
     }).join("");
   }catch(err){
     console.error(err);
-    todayGrid.innerHTML = `<div class="error">${escapeHtml(t('error.today'))}</div>`;
+    todayGrid.innerHTML = '<div class="error">The schedule could not be loaded right now. Please try again shortly.</div>';
   }
 }
 
 async function loadTrending(){
-  trendingGrid.innerHTML = `<div class="loading">${escapeHtml(t('loading.trending'))}</div>`;
+  trendingGrid.innerHTML = '<div class="loading">Loading trending anime...</div>';
   const query = `
     query {
       Page(page:1, perPage:8) {
@@ -124,34 +139,38 @@ async function loadTrending(){
       return `
         <a class="rank-row" href="${url}">
           <span class="rank-num">${rank}</span>
-          ${img ? `<img class="rank-cover" loading="lazy" src="${img}" alt="${title}">` : `<span class="rank-cover" aria-hidden="true"></span>`}
+          ${img ? `<img class="rank-cover" loading="lazy" src="${img}" alt="">` : `<span class="rank-cover" aria-hidden="true"></span>`}
           <span class="rank-main">
-            <span class="rank-title">${title}</span>
+            <span class="rank-title notranslate" translate="no">${title}</span>
             <span class="rank-meta">
               ${media.averageScore ? `<span class="score">★ ${media.averageScore}%</span>` : ""}
-              ${media.episodes ? `<span class="eps">${escapeHtml(t('episodes.short',{number:media.episodes}))}</span>` : ""}
+              ${media.episodes ? `<span class="eps">${media.episodes} eps.</span>` : ""}
             </span>
           </span>
         </a>`;
     }).join("");
   }catch(err){
     console.error(err);
-    trendingGrid.innerHTML = `<div class="error">${escapeHtml(t('error.trending'))}</div>`;
+    trendingGrid.innerHTML = '<div class="error">Trending titles could not be loaded right now.</div>';
   }
 }
 
 async function refreshAll(){
   refreshBtn.disabled = true;
-  refreshBtn.textContent = t('action.refreshing');
+  refreshBtn.textContent = "Refreshing...";
   await Promise.all([loadToday(), loadTrending()]);
-  const formatted = I18N.formatDate(new Date(), {dateStyle:"short",timeStyle:"short"});
-  lastUpdate.textContent = t('update.last',{date:formatted});
+  const formatted = new Intl.DateTimeFormat("en-US", {
+    dateStyle:"short",timeStyle:"short"
+  }).format(new Date());
+  lastUpdate.textContent = `Last update: ${formatted}`;
   refreshBtn.disabled = false;
-  refreshBtn.textContent = t('action.refresh');
+  refreshBtn.textContent = "Refresh now";
 }
 
 refreshBtn.addEventListener("click", refreshAll);
-notifyBtn.addEventListener("click", () => alert(t('notify.soon')));
+notifyBtn.addEventListener("click", () => {
+  notifyBtn.title = "Web Push notifications are coming soon.";
+});
 
 tickClock();
 setInterval(tickClock, 1000);

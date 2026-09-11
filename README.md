@@ -1,22 +1,31 @@
-# Anime Hoje — V1.4 Multilíngue
+# Anime Hoje — V1.5
 
-## Idiomas
-- Português do Brasil
-- English (US)
-- Español
-- Modo Auto: detecta o idioma preferido do navegador, sem usar geolocalização.
-- O visitante pode trocar manualmente o idioma e a preferência fica salva no navegador.
+## Translation strategy
+This version intentionally does NOT include an in-site language selector.
 
-## O que é traduzido automaticamente
-- Menus, botões, mensagens, páginas institucionais, datas e horários.
-- Gêneros e formatos dos animes.
-- Conteúdo próprio do Anime Hoje.
+The canonical page language is English (`<html lang="en">`). This makes browsers such as Google Chrome able to offer their own built-in page translation interface when the visitor uses another preferred language.
 
-## Sinopses externas
-As sinopses recebidas da fonte de catálogo podem vir em inglês. Em navegadores compatíveis com a Translator API, o usuário pode clicar em “Traduzir sinopse”; a tradução é feita pela função interna do navegador e fica salva localmente para as próximas visitas. Em navegadores sem essa API, o restante do site continua no idioma escolhido.
+Examples:
+- English-language Chrome: the page stays in English.
+- Portuguese-language Chrome: Chrome may offer "Translate to Portuguese".
+- Spanish-language Chrome: Chrome may offer "Translate to Spanish".
 
-## Segurança e privacidade
-A detecção usa `navigator.language` / `navigator.languages`; não pede localização do usuário e não usa IP para escolher idioma.
+The browser controls whether and when that translation prompt appears. A website cannot force Chrome's native translation popup.
 
-## Próxima evolução
-Para tradução 100% automática de sinopses e notícias em todos os navegadores, pode-se adicionar tradução no Cloudflare Worker e cachear os resultados.
+## Anime titles
+Anime names are protected with both:
+- `translate="no"`
+- `class="notranslate"`
+
+This asks translation engines such as Google Translate to keep anime titles unchanged while translating the surrounding interface and synopsis.
+
+## Removed
+- Internal language selector.
+- Browser Translator API button for synopsis.
+- `js/i18n.js`.
+
+## Still included
+- Internal anime pages.
+- Favorites stored locally.
+- Security headers.
+- Automatic schedule/trending data.

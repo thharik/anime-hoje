@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" data-i18n-content="meta.homeDescription" content="Anime Hoje: veja o que está saindo hoje, próximos episódios e animes em alta.">
-  <title data-i18n="meta.homeTitle">Anime Hoje — O que saiu hoje?</title>
+  <meta name="description" content="Anime Hoje: see what is airing today, trending anime and the latest updates.">
+  <title>Anime Hoje — What aired today?</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23D6301F'/%3E%3Ctext x='32' y='45' font-family='sans-serif' font-size='36' font-weight='900' fill='%23F1EBDD' text-anchor='middle'%3Eア%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,27 +14,18 @@
 <body>
   <header class="ident">
     <div class="wrap identbar">
-      <a class="brand" href="index.html" aria-label="Anime Hoje">
+      <a class="brand notranslate" translate="no" href="index.html" aria-label="Anime Hoje">
         <span class="brand-mark" aria-hidden="true">ア</span>
         <span class="brand-word">ANIME<br>HOJE</span>
       </a>
       <nav>
-        <a href="#hoje" data-i18n="nav.today">Hoje</a>
-        <a href="#em-alta" data-i18n="nav.trending">Em alta</a>
-        <a href="#noticias" data-i18n="nav.news">Notícias</a>
+        <a href="#hoje">Today</a>
+        <a href="#em-alta">Trending</a>
+        <a href="#noticias">News</a>
       </nav>
       <div class="ident-right">
-        <label class="language-control">
-          <span class="sr-only" data-i18n="language.label">Idioma</span>
-          <select id="languageSelect" class="language-select" aria-label="Idioma">
-            <option value="auto">🌐 Auto</option>
-            <option value="pt-BR">🇧🇷 Português</option>
-            <option value="en-US">🇺🇸 English</option>
-            <option value="es-ES">🇪🇸 Español</option>
-          </select>
-        </label>
-        <span class="clock" id="liveClock" aria-label="Horário atual">--:--:--</span>
-        <button id="notifyBtn" class="bell" type="button" data-i18n-title="notify.soon" aria-label="Notificações">🔔</button>
+        <span class="clock" id="liveClock" aria-label="Current time">--:--:--</span>
+        <button id="notifyBtn" class="bell" type="button" title="Notifications are coming soon" aria-label="Notifications">🔔</button>
       </div>
     </div>
   </header>
@@ -43,18 +34,18 @@
     <section class="hero">
       <div class="wrap hero-grid">
         <div class="hero-copy">
-          <h1 data-i18n="hero.title">O que estreou hoje, antes de alguém te contar.</h1>
-          <p class="lead" data-i18n="hero.lead">Horários de exibição e os títulos em alta são atualizados ao longo do dia, para você encontrar rapidamente o que está acontecendo agora.</p>
-          <a class="primary" href="#hoje" data-i18n="hero.cta">Ver o que estreia hoje</a>
+          <h1>What aired today, before anyone tells you.</h1>
+          <p class="lead">Airing times and trending titles are updated throughout the day, so you can quickly see what is happening right now.</p>
+          <a class="primary" href="#hoje">See what airs today</a>
         </div>
         <aside class="slate">
           <div class="slate-row">
             <span class="live-dot" aria-hidden="true"></span>
-            <strong data-i18n="hero.live">NO AR AGORA</strong>
+            <strong>LIVE NOW</strong>
           </div>
           <p class="slate-date" id="todayLabelHero">—</p>
-          <p class="slate-sub" id="lastUpdate" data-i18n="hero.loading">Buscando atualização...</p>
-          <small data-i18n="hero.updatedDay">Programação atualizada ao longo do dia.</small>
+          <p class="slate-sub" id="lastUpdate">Checking for updates...</p>
+          <small>Schedule updated throughout the day.</small>
         </aside>
       </div>
       <div class="filmstrip" aria-hidden="true"></div>
@@ -62,50 +53,49 @@
 
     <section id="hoje" class="section wrap">
       <div class="section-head">
-        <h2><span class="bar"></span><span data-i18n="section.today">Sai hoje</span></h2>
-        <button id="refreshBtn" class="ghost" type="button" data-i18n="action.refresh">Atualizar agora</button>
+        <h2><span class="bar"></span><span>Airing today</span></h2>
+        <button id="refreshBtn" class="ghost" type="button">Refresh now</button>
       </div>
       <p class="muted" id="todayLabel"></p>
       <div id="todayGrid" class="schedule">
-        <div class="loading" data-i18n="loading.today">Carregando episódios de hoje...</div>
+        <div class="loading">Loading today's episodes...</div>
       </div>
     </section>
 
     <section id="em-alta" class="section section-alt">
       <div class="wrap">
         <div class="section-head">
-          <h2><span class="bar"></span><span data-i18n="section.trending">Em alta</span></h2>
+          <h2><span class="bar"></span><span>Trending</span></h2>
         </div>
-        <p class="muted" data-i18n="section.trendingLead">Os títulos que estão chamando mais atenção no momento.</p>
+        <p class="muted">The titles getting the most attention right now.</p>
         <div id="trendingGrid" class="ranking">
-          <div class="loading" data-i18n="loading.trending">Carregando animes em alta...</div>
+          <div class="loading">Loading trending anime...</div>
         </div>
       </div>
     </section>
 
     <section id="noticias" class="section wrap">
       <div class="section-head">
-        <h2><span class="bar"></span><span data-i18n="section.news">Notícias</span></h2>
+        <h2><span class="bar"></span><span>News</span></h2>
       </div>
       <div class="bulletin">
-        <span class="stamp" data-i18n="news.soon">EM BREVE</span>
-        <strong data-i18n="news.title">A automação de notícias entra na próxima versão.</strong>
-        <p data-i18n="news.body">Um robô no GitHub vai checar fontes autorizadas em intervalos definidos, atualizar o arquivo de notícias e publicar a nova versão do site sozinho.</p>
+        <span class="stamp">COMING SOON</span>
+        <strong>Automatic news updates are coming in the next version.</strong>
+        <p>A background task will check authorized sources at defined intervals, update the news feed and publish new information automatically.</p>
       </div>
     </section>
   </main>
 
   <footer>
     <div class="wrap footer">
-      <div class="footer-brand">
+      <div class="footer-brand notranslate" translate="no">
         <span class="brand-mark small" aria-hidden="true">ア</span>
-        <span data-i18n="footer.version">Anime Hoje — versão multilíngue</span>
+        <span>Anime Hoje</span>
       </div>
-      <span class="footer-links"><a href="sobre.html" data-i18n="footer.about">Sobre</a><a href="privacidade.html" data-i18n="footer.privacy">Privacidade</a><a href="contato.html" data-i18n="footer.contact">Contato</a></span>
+      <span class="footer-links"><a href="sobre.html">About</a><a href="privacidade.html">Privacy</a><a href="contato.html">Contact</a></span>
     </div>
   </footer>
 
-  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
