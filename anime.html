@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Detalhes do anime no Anime Hoje.">
+  <meta name="description" data-i18n-content="meta.animeDescription" content="Detalhes do anime no Anime Hoje.">
   <meta name="robots" content="index,follow">
-  <title>Anime — Anime Hoje</title>
+  <title data-i18n="meta.animeTitle">Anime — Anime Hoje</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23D6301F'/%3E%3Ctext x='32' y='45' font-family='sans-serif' font-size='36' font-weight='900' fill='%23F1EBDD' text-anchor='middle'%3Eア%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,24 +20,36 @@
         <span class="brand-word">ANIME<br>HOJE</span>
       </a>
       <nav>
-        <a href="index.html#hoje">Hoje</a>
-        <a href="index.html#em-alta">Em alta</a>
-        <a href="index.html#noticias">Notícias</a>
+        <a href="index.html#hoje" data-i18n="nav.today">Hoje</a>
+        <a href="index.html#em-alta" data-i18n="nav.trending">Em alta</a>
+        <a href="index.html#noticias" data-i18n="nav.news">Notícias</a>
       </nav>
-      <div class="ident-right"><a class="ghost" href="index.html">← Voltar</a></div>
+      <div class="ident-right">
+        <label class="language-control">
+          <span class="sr-only" data-i18n="language.label">Idioma</span>
+          <select id="languageSelect" class="language-select" aria-label="Idioma">
+            <option value="auto">🌐 Auto</option>
+            <option value="pt-BR">🇧🇷 Português</option>
+            <option value="en-US">🇺🇸 English</option>
+            <option value="es-ES">🇪🇸 Español</option>
+          </select>
+        </label>
+        <a class="ghost" href="index.html" data-i18n="nav.back">← Voltar</a>
+      </div>
     </div>
   </header>
 
   <main class="wrap detail-wrap">
-    <div id="animeDetail" class="detail-loading">Carregando anime...</div>
+    <div id="animeDetail" class="detail-loading" data-i18n="anime.loading">Carregando anime...</div>
   </main>
 
   <footer>
     <div class="wrap footer">
       <div class="footer-brand"><span class="brand-mark small" aria-hidden="true">ア</span><span>Anime Hoje</span></div>
-      <span class="footer-links"><a href="sobre.html">Sobre</a><a href="privacidade.html">Privacidade</a><a href="contato.html">Contato</a></span>
+      <span class="footer-links"><a href="sobre.html" data-i18n="footer.about">Sobre</a><a href="privacidade.html" data-i18n="footer.privacy">Privacidade</a><a href="contato.html" data-i18n="footer.contact">Contato</a></span>
     </div>
   </footer>
+  <script src="js/i18n.js"></script>
   <script src="js/anime.js"></script>
 </body>
 </html>
