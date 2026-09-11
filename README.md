@@ -128,3 +128,18 @@ O artigo agora usa uma única lista de afiliados do Mercado Livre:
 
 Todos os botões de compra do artigo apontam para essa lista.
 O arquivo `js/affiliate-links.js` foi removido porque não é mais necessário.
+
+
+## V1.8.2 — artigo reorganizado
+Correção importante: os estilos do artigo foram movidos do `<style>` inline para `/css/article.css`,
+porque a política CSP do site bloqueia CSS inline. Isso fazia a página aparecer sem organização e fazia
+o link de afiliado parecer texto comum.
+
+Mudanças:
+- botão real e destacado;
+- cards em grade para as recomendações;
+- apenas dois CTAs para a mesma lista de afiliados;
+- melhor espaçamento e leitura;
+- layout responsivo;
+- FAQ reorganizado;
+- mantém o link de afiliado `https://meli.la/2nBRNTT`.
