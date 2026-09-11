@@ -74,7 +74,7 @@ async function loadToday(){
   const dateLabel = formatDateLong(now);
   todayLabel.textContent = dateLabel;
   if(todayLabelHero) todayLabelHero.textContent = dateLabel;
-  todayGrid.innerHTML = '<div class="loading">Loading today\\'s episodes...</div>';
+  todayGrid.innerHTML = "<div class=\"loading\">Loading today's episodes...</div>";
 
   const query = `
     query ($page:Int,$start:Int,$end:Int) {

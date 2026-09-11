@@ -29,3 +29,9 @@ This asks translation engines such as Google Translate to keep anime titles unch
 - Favorites stored locally.
 - Security headers.
 - Automatic schedule/trending data.
+
+
+## V1.5.1 — correção
+- Corrigido um erro de sintaxe em `js/app.js` que impedia todo o JavaScript da página inicial de executar.
+- Por causa disso, "Airing today", "Trending", relógio e última atualização ficavam presos em carregamento.
+- A API não era a causa desse erro específico.
