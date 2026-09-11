@@ -6,7 +6,6 @@ const lastUpdate = document.getElementById("lastUpdate");
 const todayLabel = document.getElementById("todayLabel");
 const todayLabelHero = document.getElementById("todayLabelHero");
 const liveClock = document.getElementById("liveClock");
-const refreshBtn = document.getElementById("refreshBtn");
 const notifyBtn = document.getElementById("notifyBtn");
 
 function escapeHtml(value=""){
@@ -156,18 +155,13 @@ async function loadTrending(){
 }
 
 async function refreshAll(){
-  refreshBtn.disabled = true;
-  refreshBtn.textContent = "Refreshing...";
   await Promise.all([loadToday(), loadTrending()]);
   const formatted = new Intl.DateTimeFormat("en-US", {
     dateStyle:"short",timeStyle:"short"
   }).format(new Date());
   lastUpdate.textContent = `Last update: ${formatted}`;
-  refreshBtn.disabled = false;
-  refreshBtn.textContent = "Refresh now";
 }
 
-refreshBtn.addEventListener("click", refreshAll);
 notifyBtn.addEventListener("click", () => {
   notifyBtn.title = "Web Push notifications are coming soon.";
 });

@@ -66,3 +66,9 @@ O Worker inclui o header `X-Anime-Hoje-Cache: HIT|MISS` para facilitar diagnóst
 
 Se a fonte de catálogo estiver temporariamente indisponível e ainda não houver cache,
 a página retorna 503 com `Retry-After: 30`, em vez de um 502 genérico.
+
+
+## V1.6.2 — remoção do botão de atualização
+- Removido o botão "Refresh now" da página inicial.
+- A programação e os títulos em alta continuam sendo carregados automaticamente ao abrir a página.
+- Isso evita que visitantes façam novas consultas repetidas à API manualmente.
