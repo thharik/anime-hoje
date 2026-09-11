@@ -72,3 +72,25 @@ a página retorna 503 com `Retry-After: 30`, em vez de um 502 genérico.
 - Removido o botão "Refresh now" da página inicial.
 - A programação e os títulos em alta continuam sendo carregados automaticamente ao abrir a página.
 - Isso evita que visitantes façam novas consultas repetidas à API manualmente.
+
+
+## V1.7 — SEO internacional
+Páginas indexáveis adicionadas para:
+- Português (Brasil)
+- Inglês
+- Espanhol
+- Japonês
+- Chinês simplificado (China)
+- Coreano
+
+Todas possuem canonical + hreflang recíproco e mantêm nomes de animes com `translate="no"` / `notranslate`.
+
+Rotas:
+- /pt/animes-que-estreiam-hoje/
+- /en/anime-airing-today/
+- /es/animes-que-se-estrenan-hoy/
+- /ja/kyou-no-anime/
+- /zh-cn/jintian-dongman/
+- /ko/oneul-aenime/
+
+O sitemap foi atualizado com essas páginas.
