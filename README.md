@@ -94,3 +94,37 @@ Rotas:
 - /ko/oneul-aenime/
 
 O sitemap foi atualizado com essas páginas.
+
+
+## V1.8 — primeiro artigo monetizável
+
+Novo guia:
+- `/guias/mangas-para-comecar-colecao.html`
+
+O artigo já contém:
+- conteúdo original;
+- título e meta description para SEO;
+- dados estruturados Article;
+- aviso transparente sobre links de afiliados;
+- botões para Mercado Livre e Amazon;
+- link na página inicial;
+- inclusão no sitemap.
+
+### Como ativar os botões de afiliado
+Abra `js/affiliate-links.js` e cole os links reais gerados no seu programa de afiliados.
+
+Exemplo:
+`spy_family_ml: "https://seu-link-de-afiliado..."`
+
+Enquanto um link estiver vazio, o botão fica desativado para não mandar o visitante a um link sem rastreamento.
+
+### Importante para Amazon
+Se você entrar no Programa de Associados da Amazon, siga a redação de transparência exigida pela Amazon no seu site, além de marcar links patrocinados de forma clara.
+
+
+## V1.8.1 — Lista única de afiliados
+O artigo agora usa uma única lista de afiliados do Mercado Livre:
+- https://meli.la/2nBRNTT
+
+Todos os botões de compra do artigo apontam para essa lista.
+O arquivo `js/affiliate-links.js` foi removido porque não é mais necessário.
