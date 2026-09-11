@@ -1,37 +1,44 @@
-# Anime Hoje — V1.5
+# Anime Hoje — V1.6
 
-## Translation strategy
-This version intentionally does NOT include an in-site language selector.
+## Correção da tradução da sinopse
 
-The canonical page language is English (`<html lang="en">`). This makes browsers such as Google Chrome able to offer their own built-in page translation interface when the visitor uses another preferred language.
+O problema anterior acontecia porque os detalhes do anime (incluindo a sinopse)
+eram inseridos por JavaScript depois que o navegador já havia iniciado a tradução
+automática da página. Isso podia fazer o Chrome traduzir a sinopse para português,
+mas não restaurá-la corretamente ao voltar para inglês.
 
-Examples:
-- English-language Chrome: the page stays in English.
-- Portuguese-language Chrome: Chrome may offer "Translate to Portuguese".
-- Spanish-language Chrome: Chrome may offer "Translate to Spanish".
+Nesta versão, `/anime.html?id=...` é renderizado no Cloudflare Worker.
 
-The browser controls whether and when that translation prompt appears. A website cannot force Chrome's native translation popup.
+Fluxo:
+1. O visitante abre a página do anime.
+2. O Worker busca os dados do catálogo.
+3. O Worker monta o HTML completo, já contendo a sinopse.
+4. Só então a página chega ao navegador.
+5. O Google Chrome consegue traduzir/reverter a página inteira de forma muito mais consistente.
 
-## Anime titles
-Anime names are protected with both:
+## Idiomas
+
+A página-fonte continua em inglês para que o tradutor nativo do navegador possa
+oferecer tradução para o idioma preferido do visitante.
+
+Não existe seletor de idioma dentro do site.
+
+O site depende das línguas suportadas pelo mecanismo de tradução do navegador.
+O site não consegue obrigar o Chrome a abrir o pop-up de tradução.
+
+## Títulos dos animes
+
+Os nomes dos animes continuam com:
 - `translate="no"`
 - `class="notranslate"`
 
-This asks translation engines such as Google Translate to keep anime titles unchanged while translating the surrounding interface and synopsis.
+Assim, a interface e a sinopse podem ser traduzidas, mas o título da obra é preservado.
 
-## Removed
-- Internal language selector.
-- Browser Translator API button for synopsis.
-- `js/i18n.js`.
+## Cloudflare
 
-## Still included
-- Internal anime pages.
-- Favorites stored locally.
-- Security headers.
-- Automatic schedule/trending data.
+Esta versão adiciona:
+- `wrangler.jsonc`
+- `src/index.js`
+- `.assetsignore`
 
-
-## V1.5.1 — correção
-- Corrigido um erro de sintaxe em `js/app.js` que impedia todo o JavaScript da página inicial de executar.
-- Por causa disso, "Airing today", "Trending", relógio e última atualização ficavam presos em carregamento.
-- A API não era a causa desse erro específico.
+Os arquivos estáticos continuam na raiz para facilitar a atualização do repositório atual.
