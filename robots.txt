@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://anime.tvxbox.com.br/sitemap.xml

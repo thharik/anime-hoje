@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Anime Hoje: veja o que está saindo hoje, próximos episódios e animes em alta.">
+  <title>Anime Hoje — O que saiu hoje?</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23D6301F'/%3E%3Ctext x='32' y='45' font-family='sans-serif' font-size='36' font-weight='900' fill='%23F1EBDD' text-anchor='middle'%3Eア%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="ident">
+    <div class="wrap identbar">
+      <a class="brand" href="index.html" aria-label="Anime Hoje">
+        <span class="brand-mark" aria-hidden="true">ア</span>
+        <span class="brand-word">ANIME<br>HOJE</span>
+      </a>
+      <nav>
+        <a href="#hoje">Hoje</a>
+        <a href="#em-alta">Em alta</a>
+        <a href="#noticias">Notícias</a>
+      </nav>
+      <div class="ident-right">
+        <span class="clock" id="liveClock" aria-label="Horário atual">--:--:--</span>
+        <button id="notifyBtn" class="bell" type="button" title="Será ativado na etapa de notificações" aria-label="Notificações">🔔</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <h1>O que estreou hoje, antes de alguém te contar.</h1>
+          <p class="lead">
+            Horários de exibição e os títulos em alta são atualizados ao longo do dia,
+            para você encontrar rapidamente o que está acontecendo agora.
+          </p>
+          <a class="primary" href="#hoje">Ver o que estreia hoje</a>
+        </div>
+        <aside class="slate">
+          <div class="slate-row">
+            <span class="live-dot" aria-hidden="true"></span>
+            <strong>NO AR AGORA</strong>
+          </div>
+          <p class="slate-date" id="todayLabelHero">—</p>
+          <p class="slate-sub" id="lastUpdate">Buscando atualização...</p>
+          <small>Programação atualizada ao longo do dia.</small>
+        </aside>
+      </div>
+      <div class="filmstrip" aria-hidden="true"></div>
+    </section>
+
+    <section id="hoje" class="section wrap">
+      <div class="section-head">
+        <h2><span class="bar"></span>Sai hoje</h2>
+        <button id="refreshBtn" class="ghost" type="button">Atualizar agora</button>
+      </div>
+      <p class="muted" id="todayLabel"></p>
+      <div id="todayGrid" class="schedule">
+        <div class="loading">Carregando episódios de hoje...</div>
+      </div>
+    </section>
+
+    <section id="em-alta" class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2><span class="bar"></span>Em alta</h2>
+        </div>
+        <p class="muted">Os títulos que estão chamando mais atenção no momento.</p>
+        <div id="trendingGrid" class="ranking">
+          <div class="loading">Carregando animes em alta...</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="noticias" class="section wrap">
+      <div class="section-head">
+        <h2><span class="bar"></span>Notícias</h2>
+      </div>
+      <div class="bulletin">
+        <span class="stamp">EM BREVE</span>
+        <strong>A automação de notícias entra na V2.</strong>
+        <p>
+          Um robô no GitHub vai checar fontes autorizadas em intervalos definidos,
+          atualizar o arquivo de notícias e publicar a nova versão do site sozinho.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer">
+      <div class="footer-brand">
+        <span class="brand-mark small" aria-hidden="true">ア</span>
+        <span>Anime Hoje — versão inicial</span>
+      </div>
+      <span class="footer-links"><a href="sobre.html">Sobre</a><a href="privacidade.html">Privacidade</a><a href="contato.html">Contato</a></span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
