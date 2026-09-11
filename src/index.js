@@ -6,7 +6,7 @@ const SECURITY_HEADERS = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://s4.anilist.co; connect-src 'self' https://graphql.anilist.co; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; frame-src 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests"
+  "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com https://www.gstatic.com; img-src 'self' data: https://s4.anilist.co; connect-src 'self' https://graphql.anilist.co; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; frame-src 'none'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests"
 };
 
 function escapeHtml(value = "") {
@@ -222,7 +222,7 @@ function renderErrorPage(message, status = 500) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (url.pathname === "/anime.html" || url.pathname === "/anime") {
@@ -231,19 +231,69 @@ export default {
         return renderErrorPage("Anime not found.", 404);
       }
 
+      // Cache server-side: switching/reloading the browser language should not
+      // generate a fresh catalog request every time.
+      const cache = caches.default;
+      const cacheKey = new Request(`${url.origin}/__anime_cache/${id}`, {
+        method: "GET"
+      });
+
+      const cached = await cache.match(cacheKey);
+      if (cached) {
+        const headers = new Headers(cached.headers);
+        headers.set("X-Anime-Hoje-Cache", "HIT");
+        return new Response(cached.body, {
+          status: cached.status,
+          statusText: cached.statusText,
+          headers
+        });
+      }
+
       try {
         const media = await fetchAnime(id);
         if (!media) return renderErrorPage("Anime not found.", 404);
 
-        return new Response(renderAnimePage(media), {
+        const response = new Response(renderAnimePage(media), {
           headers: securityHeaders({
             "Content-Type": "text/html; charset=UTF-8",
-            "Cache-Control": "public, max-age=300"
+            "Cache-Control": "public, max-age=1800"
           })
         });
+
+        const cachedCopy = response.clone();
+        cachedCopy.headers.set("X-Anime-Hoje-Cache", "MISS");
+        ctx.waitUntil(cache.put(cacheKey, cachedCopy));
+
+        const browserResponse = response.clone();
+        browserResponse.headers.set("X-Anime-Hoje-Cache", "MISS");
+        return browserResponse;
       } catch (error) {
-        console.error(error);
-        return renderErrorPage("This anime could not be loaded right now. Please try again shortly.", 502);
+        console.error("Anime detail upstream failure:", error);
+        return new Response(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Anime Hoje</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <main class="wrap static-page">
+    <h1>Anime Hoje</h1>
+    <div class="error">
+      The catalog service is temporarily busy. Please try this page again in a moment.
+    </div>
+    <p><a class="primary" href="/index.html">Back to home</a></p>
+  </main>
+</body>
+</html>`, {
+          status: 503,
+          headers: securityHeaders({
+            "Content-Type": "text/html; charset=UTF-8",
+            "Cache-Control": "no-store",
+            "Retry-After": "30"
+          })
+        });
       }
     }
 

@@ -42,3 +42,27 @@ Esta versão adiciona:
 - `.assetsignore`
 
 Os arquivos estáticos continuam na raiz para facilitar a atualização do repositório atual.
+
+
+## V1.6.1 — estabilidade da tradução e do catálogo
+
+### Google Translate / Chrome
+O CSP agora permite especificamente os estilos servidos por:
+- `https://www.gstatic.com`
+
+Isso corrige o bloqueio observado no console ao usar o tradutor nativo do Chrome,
+sem abrir a política para qualquer domínio.
+
+### Página do anime
+As páginas de detalhes passam a usar `caches.default` no Cloudflare Worker por 30 minutos.
+
+Na prática:
+- primeira abertura do anime: consulta o catálogo e grava no cache;
+- recarregar a página: usa o cache;
+- alternar/retestar tradução: não precisa consultar novamente o catálogo;
+- menos chance de atingir rate limit ou falhas temporárias da API.
+
+O Worker inclui o header `X-Anime-Hoje-Cache: HIT|MISS` para facilitar diagnóstico.
+
+Se a fonte de catálogo estiver temporariamente indisponível e ainda não houver cache,
+a página retorna 503 com `Retry-After: 30`, em vez de um 502 genérico.
